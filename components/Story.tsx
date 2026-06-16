@@ -4,8 +4,6 @@ import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Award, Sprout, Heart } from "lucide-react";
 
-// ─── Scroll-triggered text reveal ─────────────────────────────────────────────
-// Each line fades up when the section enters the viewport, staggered by index
 function RevealLine({
   children,
   delay = 0,
@@ -16,7 +14,6 @@ function RevealLine({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  // `once: true` means animation plays only on first entry — no re-trigger on scroll back
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
@@ -27,7 +24,7 @@ function RevealLine({
         transition={{
           delay,
           duration: 0.85,
-          ease: [0.22, 1, 0.36, 1], // Custom "expo out" easing for cinematic feel
+          ease: [0.22, 1, 0.36, 1],
         }}
         className={className}
       >
@@ -37,7 +34,6 @@ function RevealLine({
   );
 }
 
-// ─── Image card with subtle tilt effect ──────────────────────────────────────
 function TiltImage({
   src, alt, className,
 }: {
@@ -72,7 +68,6 @@ function TiltImage({
   );
 }
 
-// ─── Value pillars ─────────────────────────────────────────────────────────────
 const pillars = [
   {
     Icon: Sprout,
@@ -94,17 +89,13 @@ const pillars = [
   },
 ];
 
-// ─── Main Story Section ───────────────────────────────────────────────────────
 export default function Story() {
-  // For the subtle parallax on the image grid, we track the section's scroll progress
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
 
-  // Map scroll progress to a vertical translation for the image grid
-  // Creates the effect of the grid moving slightly slower than the page
   const imageY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   const leftRef = useRef<HTMLDivElement>(null);
