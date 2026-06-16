@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Plus, Star, Leaf } from "lucide-react";
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
 const categories = ["All", "Espresso", "Pours", "Pastries"] as const;
 type Category = (typeof categories)[number];
 
@@ -131,13 +130,12 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   };
 
   return (
-    // Card lifts on hover via translateY + shadow; image scales inside overflow-hidden container
     <motion.article
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ delay: index * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      layout // Framer Motion layout prop animates position changes when filter changes
+      layout
       whileHover={{ y: -8, transition: { duration: 0.3, ease: "easeOut" } }}
       className="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-amber-900/15 transition-shadow duration-400 flex flex-col"
     >
@@ -147,10 +145,8 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
           src={item.image}
           alt={item.name}
           className="w-full h-full object-cover"
-          // Scale image on card hover via CSS group utility
           style={{ transition: "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)" }}
-          // We use whileHover on the parent but JS can't easily do group-hover with Framer on a child,
-          // so we rely on CSS group-hover via a style tag trick + Tailwind group
+          
         />
         {/* Dark gradient for text legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
@@ -245,7 +241,7 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
 export default function Menu() {
   const [active, setActive] = useState<Category>("All");
   const ref = useRef<HTMLDivElement>(null);
-  // Trigger entrance animation when section enters viewport
+  
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   const filtered =
