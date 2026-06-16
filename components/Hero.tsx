@@ -4,13 +4,10 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
 
-// ─── Magnetic Button ───────────────────────────────────────────────────────────
-// Tracks cursor proximity and pulls the button toward the cursor magnetically.
 function MagneticButton({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  // Spring physics: stiffness 150 = snappy but smooth, damping 15 = minimal oscillation
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
   const springY = useSpring(y, { stiffness: 150, damping: 15 });
 
@@ -20,7 +17,6 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    // Pull strength: 35% of distance from center
     x.set((e.clientX - cx) * 0.35);
     y.set((e.clientY - cy) * 0.35);
   };
@@ -60,7 +56,6 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ─── Floating particle (steam / bean blobs) ────────────────────────────────────
 function FloatingOrb({
   size, x, delay, duration, color,
 }: {
@@ -86,7 +81,6 @@ function FloatingOrb({
   );
 }
 
-// ─── Typewriter hook ───────────────────────────────────────────────────────────
 function useTypewriter(words: string[], speed = 80, pause = 2000) {
   const [idx, setIdx] = useState(0);
   const [displayed, setDisplayed] = useState("");
@@ -112,11 +106,9 @@ function useTypewriter(words: string[], speed = 80, pause = 2000) {
   return displayed;
 }
 
-// ─── Main Hero ─────────────────────────────────────────────────────────────────
 export default function Hero() {
   const typed = useTypewriter(["Awakens You.", "Inspires You.", "Defines You."], 80, 2200);
 
-  // Stagger timing constants for the entrance animation
   const variants = {
     hidden: { opacity: 0, y: 30 },
     visible: (delay: number) => ({
@@ -136,7 +128,7 @@ export default function Hero() {
           src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&q=85&auto=format&fit=crop"
           alt="Artisanal coffee close-up"
           className="w-full h-full object-cover object-center"
-          // Scale subtly on load for a cinematic feel
+          
           style={{ transform: "scale(1.05)", transformOrigin: "center center" }}
         />
         {/* Deep layered overlay: bottom-heavy for legibility */}
